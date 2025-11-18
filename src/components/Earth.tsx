@@ -8,7 +8,7 @@ export function Earth(props: ComponentProps<"group">) {
 
   useFrame(({ clock }) => {
     if (!gltf.current) return;
-    gltf.current.rotation.y += clock.elapsedTime / 1000;
+    gltf.current.rotation.y = clock.elapsedTime / 10;
   });
 
   return (
