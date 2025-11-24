@@ -1,11 +1,13 @@
-import { Theme } from "@radix-ui/themes";
-import { Sandbox } from "../Sandbox";
+import { Flex, Theme } from "@radix-ui/themes";
+import { SectionIntro } from "../SectionIntro";
 import "./index.css";
 
 export function App() {
   return (
     <Theme appearance="dark" style={{ width: "100vw", height: "100vh" }}>
-      <Sandbox />
+      <Flex direction="column">
+        <SectionIntro />
+      </Flex>
     </Theme>
   );
 }

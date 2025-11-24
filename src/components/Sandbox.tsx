@@ -13,7 +13,7 @@ export function Sandbox() {
         fov: 60,
       }}
     >
-      <pointLight decay={0} intensity={3} />
+      <pointLight decay={0} intensity={2} />
 
       <Environment background files="/stars.jpg" />
 
