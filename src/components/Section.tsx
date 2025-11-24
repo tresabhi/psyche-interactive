@@ -7,6 +7,7 @@ export function Section({ style, ...props }: FlexProps) {
         width: "100vw",
         height: "100vh",
         overflow: "hidden",
+        position: "relative",
         ...style,
       }}
       direction="column"
