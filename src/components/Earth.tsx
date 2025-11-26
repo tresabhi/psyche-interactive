@@ -1,31 +1,34 @@
-import { Gltf } from "@react-three/drei";
-import { forwardRef, type ComponentProps } from "react";
+import { Gltf, useScroll } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { useRef } from "react";
 import { Group } from "three";
-import { degToRad } from "three/src/math/MathUtils.js";
-import { useProgress } from "./Progress";
+import { degToRad, lerp } from "three/src/math/MathUtils.js";
 
-const DISTANCE = 10;
+export function Earth() {
+  const scroll = useScroll();
 
-export const Earth = forwardRef<Group, ComponentProps<"group">>(
-  (props, ref) => {
-    const { inverseProgress } = useProgress(0, 1);
+  const wrapper = useRef<Group>(null);
 
-    return (
-      <group
-        rotation={[
-          (Math.PI / 4) * inverseProgress,
-          -(Math.PI / 2) * inverseProgress,
-          0,
-        ]}
-        position={[0, 0, -(DISTANCE + 0.5) * inverseProgress]}
-        scale={5}
-      >
-        <Gltf
-          rotation={[degToRad(20), degToRad(-10), 0]}
-          scale={1 / 200}
-          src="/models/earth.glb"
-        />
-      </group>
+  useFrame(() => {
+    const x = scroll.range(0, 1 / scroll.pages);
+
+    const scale = lerp(5, 100, x);
+
+    wrapper.current?.rotation.set(
+      lerp(Math.PI / 4, 0, x),
+      lerp(-Math.PI / 2, 0, x ** (1 / 2)),
+      0
     );
-  }
-);
+    wrapper.current?.scale.set(scale, scale, scale);
+  });
+
+  return (
+    <group ref={wrapper} position={[0, 0, -50]}>
+      <Gltf
+        rotation={[degToRad(27), degToRad(-9), 0]}
+        scale={1 / 200}
+        src="/models/earth.glb"
+      />
+    </group>
+  );
+}

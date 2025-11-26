@@ -1,26 +1,21 @@
-import { Environment, OrbitControls } from "@react-three/drei";
+import { Environment, ScrollControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { r_E, SCALE } from "../constants";
-import { Earth } from "./Earth";
-import { Sun } from "./Sun";
+import { SectionIntro } from "./SectionIntro";
 
 export function Sandbox() {
   return (
     <Canvas
       style={{ background: "black" }}
+      orthographic
       camera={{
-        position: [-2, 2, r_E * SCALE + 2],
-        fov: 60,
+        zoom: 64,
       }}
     >
-      <pointLight decay={0} intensity={2} />
-
       <Environment background files="/stars.jpg" />
 
-      <OrbitControls target={[0, 0, r_E * SCALE]} />
-      <Earth position={[0, 0, r_E * SCALE]} />
-
-      <Sun />
+      <ScrollControls pages={1}>
+        <SectionIntro />
+      </ScrollControls>
     </Canvas>
   );
 }

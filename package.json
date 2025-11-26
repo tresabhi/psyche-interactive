@@ -12,6 +12,7 @@
   "dependencies": {
     "@eslint/js": "^9.39.1",
     "@radix-ui/themes": "^3.2.1",
+    "@react-spring/three": "^10.0.3",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.0",
     "@types/node": "^24.10.0",
@@ -27,7 +28,7 @@
     "quicklime": "^1.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "three": "^0.181.1",
+    "three": "^0.181.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.3",
     "vite": "npm:rolldown-vite@7.2.2",

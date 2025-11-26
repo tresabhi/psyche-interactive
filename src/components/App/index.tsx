@@ -2,8 +2,10 @@ import { Theme } from "@radix-ui/themes";
 import { useEffect } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
 import { progressEvent } from "../Progress";
-import { Sections } from "../Sections";
+import { Sandbox } from "../Sandbox";
 import "./index.css";
+
+const PAGES = 3;
 
 export function App() {
   useEffect(() => {
@@ -17,9 +19,13 @@ export function App() {
   return (
     <Theme
       appearance="dark"
-      style={{ width: "100vw", height: "100vh", background: "black" }}
+      style={{
+        width: "100vw",
+        height: `100vh`,
+        background: "black",
+      }}
     >
-      <Sections />
+      <Sandbox />
     </Theme>
   );
 }
