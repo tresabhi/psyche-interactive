@@ -5,8 +5,6 @@ import { progressEvent } from "../Progress";
 import { Sandbox } from "../Sandbox";
 import "./index.css";
 
-const PAGES = 3;
-
 export function App() {
   useEffect(() => {
     window.addEventListener("wheel", (event) => {
@@ -22,7 +20,8 @@ export function App() {
       style={{
         width: "100vw",
         height: `100vh`,
-        background: "black",
+        backgroundImage: "url(/stars.jpg)",
+        backgroundSize: "cover",
       }}
     >
       <Sandbox />

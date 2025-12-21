@@ -10,9 +10,9 @@ export function Earth() {
   const wrapper = useRef<Group>(null);
   const globe = useRef<Group>(null);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, camera }) => {
     const t = scroll.range(0, 1 / scroll.pages);
-    const s = lerp(30, 100, t);
+    const s = lerp(15, 30, t);
     const theta = (clock.elapsedTime / 10) % (2 * Math.PI);
 
     wrapper.current?.rotation.set(
@@ -21,8 +21,11 @@ export function Earth() {
       0
     );
     wrapper.current?.scale.set(s, s, s);
-    wrapper.current?.position.set(0, lerp(-14, 0, t), -50);
+    wrapper.current?.position.set(0, lerp(-7, 0, t), -25);
     globe.current?.rotation.set(degToRad(27), lerp(theta, degToRad(-9), t), 0);
+
+    camera.zoom = lerp(5, 3, t);
+    camera.updateProjectionMatrix();
   });
 
   return (

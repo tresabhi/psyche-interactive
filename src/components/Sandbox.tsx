@@ -4,10 +4,10 @@ import { SectionIntro } from "./SectionIntro";
 
 export function Sandbox() {
   return (
-    <Canvas orthographic camera={{ zoom: 64 }}>
-      <Environment background files={["/stars.jpg"]} />
+    <Canvas>
+      <Environment environmentIntensity={0} background files={["/stars.jpg"]} />
 
-      <ScrollControls pages={1} damping={0}>
+      <ScrollControls pages={1}>
         <SectionIntro />
       </ScrollControls>
     </Canvas>
