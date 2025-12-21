@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Group } from "three";
 import { degToRad, lerp } from "three/src/math/MathUtils.js";
+import { smooth } from "../util/smooth";
 
 export function Earth() {
   const scroll = useScroll();
@@ -11,7 +12,7 @@ export function Earth() {
   const globe = useRef<Group>(null);
 
   useFrame(({ clock, camera }) => {
-    const t = scroll.range(0, 1 / scroll.pages);
+    const t = smooth(scroll.range(0, 1 / scroll.pages));
     const s = lerp(15, 30, t);
     const theta = (clock.elapsedTime / 10) % (2 * Math.PI);
 

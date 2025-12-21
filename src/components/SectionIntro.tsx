@@ -1,13 +1,15 @@
 import { Earth } from "./Earth";
+import { LaunchSequence } from "./LaunchSequence";
 import { Title } from "./Title";
 
 export function SectionIntro() {
   return (
     <>
-      <Title />
-
       <pointLight position={[-10, 10, 10]} decay={0} intensity={2} />
+
+      <Title />
       <Earth />
+      <LaunchSequence />
     </>
   );
 }

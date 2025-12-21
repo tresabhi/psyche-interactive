@@ -1,0 +1,18 @@
+.launch-sequence {
+  position: absolute;
+  opacity: 0;
+  transition: 1s ease;
+  transform: translate(-50%, -50%);
+  padding-top: 5rem;
+}
+
+.launch-sequence.visible {
+  padding-top: 0;
+  opacity: 1;
+}
+
+.launch-sequence video {
+  width: 18vw;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}

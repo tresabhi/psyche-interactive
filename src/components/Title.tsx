@@ -1,19 +1,21 @@
 import { Heading } from "@radix-ui/themes";
-import { Html, Scroll } from "@react-three/drei";
+import { Scroll } from "@react-three/drei";
 
 export function Title() {
   return (
-    <Scroll>
-      <Html center>
-        <Heading
-          style={{ letterSpacing: "-2px" }}
-          size="9"
-          wrap="nowrap"
-          mb="50vh"
-        >
-          PSYCHE INTERACTIVE
-        </Heading>
-      </Html>
+    <Scroll html>
+      <Heading
+        style={{
+          letterSpacing: "-2px",
+          width: "100vw",
+          textAlign: "center",
+          fontSize: "7vw",
+        }}
+        mt="10vw"
+        wrap="nowrap"
+      >
+        PSYCHE INTERACTIVE
+      </Heading>
     </Scroll>
   );
 }

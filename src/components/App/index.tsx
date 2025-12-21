@@ -20,8 +20,7 @@ export function App() {
       style={{
         width: "100vw",
         height: `100vh`,
-        backgroundImage: "url(/stars.jpg)",
-        backgroundSize: "cover",
+        background: "black",
       }}
     >
       <Sandbox />
