@@ -8,27 +8,26 @@ export function Earth() {
   const scroll = useScroll();
 
   const wrapper = useRef<Group>(null);
+  const globe = useRef<Group>(null);
 
-  useFrame(() => {
-    const x = scroll.range(0, 1 / scroll.pages);
-
-    const scale = lerp(5, 100, x);
+  useFrame(({ clock }) => {
+    const t = scroll.range(0, 1 / scroll.pages);
+    const s = lerp(30, 100, t);
+    const theta = (clock.elapsedTime / 10) % (2 * Math.PI);
 
     wrapper.current?.rotation.set(
-      lerp(Math.PI / 4, 0, x),
-      lerp(-Math.PI / 2, 0, x ** (1 / 2)),
+      lerp(Math.PI / 4, 0, t),
+      lerp(-Math.PI / 2, 0, t ** (1 / 2)),
       0
     );
-    wrapper.current?.scale.set(scale, scale, scale);
+    wrapper.current?.scale.set(s, s, s);
+    wrapper.current?.position.set(0, lerp(-14, 0, t), -50);
+    globe.current?.rotation.set(degToRad(27), lerp(theta, degToRad(-9), t), 0);
   });
 
   return (
-    <group ref={wrapper} position={[0, 0, -50]}>
-      <Gltf
-        rotation={[degToRad(27), degToRad(-9), 0]}
-        scale={1 / 200}
-        src="/models/earth.glb"
-      />
+    <group ref={wrapper}>
+      <Gltf ref={globe} scale={1 / 200} src="/models/earth.glb" />
     </group>
   );
 }
