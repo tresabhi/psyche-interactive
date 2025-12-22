@@ -1,5 +1,6 @@
 import { Earth } from "./Earth";
 import { Florida } from "./Florida";
+import { LaunchAnimation } from "./LaunchAnimation";
 import { LaunchSequence } from "./LaunchSequence";
 import { Title } from "./Title";
 
@@ -12,6 +13,7 @@ export function SectionIntro() {
       <Earth />
       <Florida />
       <LaunchSequence />
+      <LaunchAnimation />
     </>
   );
 }
