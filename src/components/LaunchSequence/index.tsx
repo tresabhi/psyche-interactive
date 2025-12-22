@@ -12,7 +12,7 @@ export function LaunchSequence() {
 
   return (
     <Scroll>
-      <Html position={[0, -viewport.height, 0]} center>
+      <Html position={[0, -2 * viewport.height, 0]} center>
         <Box
           position="relative"
           width="100vw"

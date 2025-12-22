@@ -1,4 +1,5 @@
 import { Earth } from "./Earth";
+import { Florida } from "./Florida";
 import { LaunchSequence } from "./LaunchSequence";
 import { Title } from "./Title";
 
@@ -9,6 +10,7 @@ export function SectionIntro() {
 
       <Title />
       <Earth />
+      <Florida />
       <LaunchSequence />
     </>
   );

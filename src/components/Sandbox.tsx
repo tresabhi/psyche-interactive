@@ -7,7 +7,7 @@ export function Sandbox() {
     <Canvas>
       <Environment environmentIntensity={0} background files={["/stars.jpg"]} />
 
-      <ScrollControls pages={2}>
+      <ScrollControls pages={3}>
         <SectionIntro />
       </ScrollControls>
     </Canvas>

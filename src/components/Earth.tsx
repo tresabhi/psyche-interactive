@@ -23,7 +23,11 @@ export function Earth() {
     );
     wrapper.current?.scale.set(s, s, s);
     wrapper.current?.position.set(0, lerp(-7, 0, t), -25);
-    globe.current?.rotation.set(degToRad(27), lerp(theta, degToRad(-9), t), 0);
+    globe.current?.rotation.set(
+      degToRad(28.5),
+      lerp(theta, degToRad(-10.5), t),
+      0
+    );
 
     camera.zoom = lerp(5, 3, t);
     camera.updateProjectionMatrix();
