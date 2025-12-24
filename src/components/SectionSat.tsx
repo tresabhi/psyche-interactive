@@ -22,7 +22,7 @@ export function SectionSat() {
 
       child.intensity =
         child.userData.intensity *
-        scroll.range(2.5 / scroll.pages, 1 / scroll.pages);
+        scroll.range(3 / scroll.pages, 1 / scroll.pages);
     }
   });
 
