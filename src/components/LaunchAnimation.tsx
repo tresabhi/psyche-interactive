@@ -11,17 +11,19 @@ export function LaunchAnimation() {
   const scroll = useScroll();
 
   useFrame(({ camera }) => {
-    const t = smooth(scroll.range(2 / scroll.pages, 1 / scroll.pages));
+    const tPath = smooth(scroll.range(2 / scroll.pages, 1 / scroll.pages));
+    const tCamX = smooth(scroll.curve(2 / scroll.pages, 2 / scroll.pages));
+    const tCamY = smooth(scroll.range(2 / scroll.pages, 2 / scroll.pages));
 
-    plane.current.constant = lerp(-1, 20, t);
-    plane.current.normal.set(-1, 0, 0).applyAxisAngle(J_HAT, t * 2);
+    plane.current.constant = lerp(-1, 20, tPath);
+    plane.current.normal.set(-1, 0, 0).applyAxisAngle(J_HAT, tPath * 2);
 
     camera.rotation.set(
-      lerp(0, degToRad(25), t),
-      lerp(0, degToRad(-100), t),
+      lerp(0, degToRad(15), tCamX),
+      lerp(0, -Math.PI, tCamY),
       0
     );
-    camera.position.set(0, lerp(0, -2, t), 5);
+    camera.position.set(0, lerp(0, -3, tCamX), 5);
   });
 
   return (
