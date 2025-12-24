@@ -1,6 +1,7 @@
 import { Environment, OrbitControls, ScrollControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { SectionIntro } from "./SectionIntro";
+import { SectionSat } from "./SectionSat";
 
 export function Sandbox() {
   return (
@@ -11,6 +12,7 @@ export function Sandbox() {
 
       <ScrollControls pages={5}>
         <SectionIntro />
+        <SectionSat />
       </ScrollControls>
     </Canvas>
   );
