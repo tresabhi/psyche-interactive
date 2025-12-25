@@ -1,15 +1,19 @@
-import { Gltf, useScroll } from "@react-three/drei";
+import { Gltf, useScroll, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Group } from "three";
 import { degToRad, lerp } from "three/src/math/MathUtils.js";
-import { smooth } from "../util/smooth";
+import { smooth } from "../../util/smooth";
+import fragmentShader from "./shaders/fragment.glsl?raw";
+import vertexShader from "./shaders/vertex.glsl?raw";
 
 export function Earth() {
   const scroll = useScroll();
 
   const wrapper = useRef<Group>(null);
   const globe = useRef<Group>(null);
+
+  const glow = useTexture("/glow.png");
 
   useFrame(({ clock, camera }) => {
     const t = smooth(scroll.range(0, 1 / scroll.pages));
@@ -35,6 +39,20 @@ export function Earth() {
 
   return (
     <group ref={wrapper}>
+      <mesh frustumCulled={false} position={[0, 0, 0.1]}>
+        <planeGeometry args={[400, 400]} />
+        <shaderMaterial
+          depthWrite={false}
+          uniforms={{
+            bloomThreshold: { value: 1 / 32 },
+            bloomPower: { value: 2 ** 6 },
+          }}
+          fragmentShader={fragmentShader}
+          vertexShader={vertexShader}
+          transparent
+        />
+      </mesh>
+
       <Gltf ref={globe} scale={1 / 200} src="/models/earth.glb" />
     </group>
   );
