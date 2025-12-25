@@ -1,4 +1,5 @@
 import { Theme } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 import { useEffect } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
 import { progressEvent } from "../Progress";
@@ -17,11 +18,7 @@ export function App() {
   return (
     <Theme
       appearance="dark"
-      style={{
-        width: "100vw",
-        height: `100vh`,
-        background: "black",
-      }}
+      style={{ width: "100vw", height: "100vh", background: "black" }}
     >
       <Sandbox />
     </Theme>

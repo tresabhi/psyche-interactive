@@ -1,0 +1,23 @@
+.info-clicker {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid white;
+  transform: rotate(45deg);
+  cursor: pointer;
+  user-select: none;
+}
+
+.info-clicker[data-animate="true"] {
+  animation: outline-slide 2s linear infinite;
+}
+
+@keyframes outline-slide {
+  from {
+    outline: 1px solid white;
+    outline-offset: 0;
+  }
+  to {
+    outline: 1px solid transparent;
+    outline-offset: 0.5rem;
+  }
+}
