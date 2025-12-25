@@ -1,7 +1,18 @@
+.info {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.info[data-show="true"] {
+  opacity: 1;
+}
+
 .info-clicker {
   width: 1rem;
   height: 1rem;
   border: 2px solid white;
+  box-shadow: 0 0 1rem black;
+  background-color: #ffffff80;
   transform: rotate(45deg);
   cursor: pointer;
   user-select: none;

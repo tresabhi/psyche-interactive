@@ -5,11 +5,11 @@ import vertexShader from "./shaders/vertex.glsl?raw";
 export function Sun(props: ComponentProps<"mesh">) {
   return (
     <mesh frustumCulled={false} {...props}>
-      <planeGeometry args={[2 ** 4, 2 ** 4]} />
+      <planeGeometry args={[2 ** 2, 2 ** 2]} />
       <shaderMaterial
         uniforms={{
           bloomThreshold: { value: 1 / 32 },
-          bloomPower: { value: 8 },
+          bloomPower: { value: 2 ** 2 },
         }}
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}

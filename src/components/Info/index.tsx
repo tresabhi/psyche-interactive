@@ -4,7 +4,11 @@ import type { HtmlProps } from "@react-three/drei/web/Html";
 import { useEffect, useState } from "react";
 import "./index.css";
 
-export function Info({ children, ...props }: HtmlProps) {
+interface Props extends HtmlProps {
+  show: boolean;
+}
+
+export function Info({ children, show, ...props }: Props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -26,7 +30,7 @@ export function Info({ children, ...props }: HtmlProps) {
       portal={{ current: document.getElementById("app")! }}
       {...props}
     >
-      <Flex gap="4">
+      <Flex gap="4" className="info" data-show={show}>
         <Flex
           data-animate={!visible}
           flexShrink="0"

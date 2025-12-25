@@ -1,7 +1,7 @@
 import { Heading, Text } from "@radix-ui/themes";
 import { Gltf, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Group } from "three";
 import { degToRad, lerp } from "three/src/math/MathUtils.js";
 import { smooth } from "../util/smooth";
@@ -10,6 +10,7 @@ import { Info } from "./Info";
 export function PsycheSat() {
   const wrapper = useRef<Group>(null);
   const scroll = useScroll();
+  const [show, setShow] = useState(false);
 
   useFrame(() => {
     if (!wrapper.current) return;
@@ -22,11 +23,25 @@ export function PsycheSat() {
       lerp(degToRad(0), degToRad(190), t),
       degToRad(100)
     );
+
+    setShow(t >= 1 - 2 ** -6);
   });
 
   return (
     <group ref={wrapper}>
-      <Info position={[1, 0, 3]}>
+      <Info position={[-1, -1.25, 4.5]} show={show}>
+        <Heading>Gamma-Ray and Neutron Spectrometers</Heading>
+
+        <Text>
+          Psyche's gamma-ray and neutron spectrometer will “listen” to the
+          asteroid's surface. Cosmic rays and high-energy particles hit Psyche,
+          and the elements there respond by releasing neutrons and gamma rays at
+          different energy levels. By measuring these emissions, scientists can
+          figure out which elements make up the asteroid.
+        </Text>
+      </Info>
+
+      <Info position={[1, 0, 3]} show={show}>
         <Heading>X-Band High Gain Antenna</Heading>
 
         <Text>
@@ -40,7 +55,7 @@ export function PsycheSat() {
         </Text>
       </Info>
 
-      <Info position={[3, -0.25, -1.5]}>
+      <Info position={[3, -0.25, -1.5]} show={show}>
         <Heading>DSOC</Heading>
 
         <Text>
@@ -57,7 +72,7 @@ export function PsycheSat() {
         </Text>
       </Info>
 
-      <Info position={[1, 12.5, 0]}>
+      <Info position={[1, 12.5, 0]} show={show}>
         <Heading>Solar Panels</Heading>
 
         <Text>
@@ -72,7 +87,7 @@ export function PsycheSat() {
         </Text>
       </Info>
 
-      <Info position={[-1.75, 2, 4.5]}>
+      <Info position={[-1.75, 2, 4.5]} show={show}>
         <Heading>Magnetometer</Heading>
 
         <Text>
