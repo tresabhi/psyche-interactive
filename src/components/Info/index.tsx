@@ -9,6 +9,7 @@ export function Info({ children, ...props }: HtmlProps) {
 
   useEffect(() => {
     function handlePointerDown() {
+      if (!visible) return;
       setVisible(false);
     }
 
@@ -17,17 +18,20 @@ export function Info({ children, ...props }: HtmlProps) {
     return () => {
       window.removeEventListener("pointerdown", handlePointerDown);
     };
-  }, []);
+  }, [visible]);
 
   return (
-    <Html portal={{ current: document.body }} {...props}>
-      <Flex gap="4" style={{ fontFamily: "var(--default-font-family)" }}>
+    <Html
+      zIndexRange={[32, 0]}
+      portal={{ current: document.getElementById("app")! }}
+      {...props}
+    >
+      <Flex gap="4">
         <Flex
           data-animate={!visible}
           flexShrink="0"
-          onPointerDown={(event) => {
-            event.stopPropagation();
-            setVisible((state) => !state);
+          onPointerDown={() => {
+            setVisible(true);
           }}
           align="center"
           justify="center"
@@ -35,13 +39,13 @@ export function Info({ children, ...props }: HtmlProps) {
         />
 
         {visible && (
-          <Card>
-            <Flex
-              direction="column"
-              onPointerDown={(event) => {
-                event.stopPropagation();
-              }}
-            >
+          <Card
+            style={{ zIndex: 64 }}
+            onPointerDown={(event) => {
+              event.stopPropagation();
+            }}
+          >
+            <Flex width="min(25vw, 28rem)" gap="2" direction="column">
               {children}
             </Flex>
           </Card>

@@ -18,6 +18,7 @@ export function App() {
   return (
     <Theme
       appearance="dark"
+      id="app"
       style={{ width: "100vw", height: "100vh", background: "black" }}
     >
       <Sandbox />
