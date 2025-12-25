@@ -18,12 +18,14 @@ export function LaunchAnimation() {
     plane.current.constant = lerp(-1, 20, tPath);
     plane.current.normal.set(-1, 0, 0).applyAxisAngle(J_HAT, tPath * 2);
 
-    camera.rotation.set(
-      lerp(0, degToRad(15), tCamX),
-      lerp(0, -Math.PI, tCamY),
-      0
-    );
-    camera.position.set(0, lerp(0, -3, tCamX), 5);
+    if (tCamX < 1 || tCamY < 1) {
+      camera.rotation.set(
+        lerp(0, degToRad(15), tCamX),
+        lerp(0, -Math.PI, tCamY),
+        0
+      );
+      camera.position.set(0, lerp(0, -3, tCamX), 5);
+    }
   });
 
   return (

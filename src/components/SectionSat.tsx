@@ -29,7 +29,7 @@ export function SectionSat() {
   return (
     <group ref={wrapper}>
       <pointLight position={[3, 4, 30]} userData={{ intensity: 3 }} decay={0} />
-      <Sun position={[3, 4, 30]} />
+      <Sun position={[15, 15, 100]} />
 
       <pointLight
         position={[0, 0, 0]}
@@ -37,6 +37,11 @@ export function SectionSat() {
         color={new Color(0.5, 0.5, 1)}
         decay={0}
       />
+
+      <mesh position={[30, -30, -40]}>
+        <meshNormalMaterial />
+        <icosahedronGeometry />
+      </mesh>
 
       <PsycheSat />
     </group>

@@ -33,8 +33,10 @@ export function Earth() {
       0
     );
 
-    camera.zoom = lerp(5, 3, t);
-    camera.updateProjectionMatrix();
+    if (t < 1) {
+      camera.zoom = lerp(5, 3, t);
+      camera.updateProjectionMatrix();
+    }
   });
 
   return (

@@ -2,18 +2,19 @@ import { Heading, Text } from "@radix-ui/themes";
 import { Gltf, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef, useState } from "react";
-import { Group } from "three";
+import { Group, Mesh } from "three";
 import { degToRad, lerp } from "three/src/math/MathUtils.js";
 import { smooth } from "../util/smooth";
 import { Info } from "./Info";
 
 export function PsycheSat() {
   const wrapper = useRef<Group>(null);
+  const laser = useRef<Mesh>(null);
   const scroll = useScroll();
   const [show, setShow] = useState(false);
 
-  useFrame(() => {
-    if (!wrapper.current) return;
+  useFrame(({ camera }) => {
+    if (!wrapper.current || !laser.current) return;
 
     const t = smooth(scroll.range(2 / scroll.pages, 2 / scroll.pages));
 
@@ -24,11 +25,35 @@ export function PsycheSat() {
       degToRad(100)
     );
 
-    setShow(t >= 1 - 2 ** -6);
+    const t2 = smooth(scroll.range(5 / scroll.pages, 1 / scroll.pages));
+    const t2Fast = smooth(scroll.curve(5 / scroll.pages, 4 / scroll.pages));
+
+    setShow(t === 1 && t2 === 0);
+
+    if (t2 > 0) {
+      camera.rotation.set(
+        lerp(0, degToRad(-30), t2),
+        lerp(-Math.PI, -2 * Math.PI, t2Fast),
+        0
+      );
+      camera.position.set(lerp(0, 50, t2), 0, 5);
+      camera.zoom = lerp(3, 2, t2);
+      camera.updateProjectionMatrix();
+
+      laser.current.position.set(0, 0, lerp(-1, 100, t2));
+      laser.current.scale.set(1, 1, lerp(1, 10, t2));
+    }
   });
 
   return (
     <group ref={wrapper}>
+      <group position={[2.5, -0.125, -2]} rotation={[0, degToRad(30), 0]}>
+        <mesh ref={laser} position={[0, 0, -1]}>
+          <boxGeometry args={[2 ** -3, 2 ** -3]} />
+          <meshBasicMaterial />
+        </mesh>
+      </group>
+
       <Info position={[-1, -1.25, 4.5]} show={show}>
         <Heading>Gamma-Ray and Neutron Spectrometers</Heading>
 

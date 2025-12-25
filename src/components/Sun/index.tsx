@@ -5,7 +5,7 @@ import vertexShader from "./shaders/vertex.glsl?raw";
 export function Sun(props: ComponentProps<"mesh">) {
   return (
     <mesh frustumCulled={false} {...props}>
-      <planeGeometry args={[2 ** 2, 2 ** 2]} />
+      <planeGeometry args={[2 ** 4, 2 ** 4]} />
       <shaderMaterial
         uniforms={{
           bloomThreshold: { value: 1 / 32 },
