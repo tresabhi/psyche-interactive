@@ -30,11 +30,7 @@ export function PsycheSat() {
     setShow(t === 1 && t2 === 0);
 
     if (t2 > 0) {
-      camera.rotation.set(
-        lerp(0, degToRad(-30), t2),
-        lerp(-Math.PI, -2 * Math.PI, t2),
-        0
-      );
+      camera.rotation.set(0, lerp(-Math.PI, -2 * Math.PI, t2), 0);
       camera.position.set(lerp(0, 50, t2), 0, 5);
       camera.zoom = lerp(3, 2, t2);
       camera.updateProjectionMatrix();

@@ -2,18 +2,27 @@ import { Card, Flex, Inset, Text } from "@radix-ui/themes";
 import { Gltf, Html, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import type { Mesh } from "three";
+import type { Group, Mesh } from "three";
 import { degToRad, lerp } from "three/src/math/MathUtils.js";
+import { J_HAT } from "../../util/hats";
 import { smooth } from "../../util/smooth";
 import "./index.css";
 
 export function SectionCat() {
   const scroll = useScroll();
   const laser = useRef<Mesh>(null);
+  const wrapper = useRef<Group>(null);
+  const earth = useRef<Group>(null);
   const cat = useRef<HTMLDivElement>(null);
 
   useFrame(() => {
-    if (!laser.current || !cat.current) return;
+    if (!laser.current || !cat.current || !wrapper.current || !earth.current)
+      return;
+
+    wrapper.current.visible = scroll.visible(
+      5.5 / scroll.pages,
+      3 / scroll.pages
+    );
 
     const t = smooth(scroll.range(5 / scroll.pages, 1 / scroll.pages));
 
@@ -24,13 +33,18 @@ export function SectionCat() {
       6 / scroll.pages,
       1 / scroll.pages
     )}`;
+
+    const t2 = 2 * smooth(scroll.range(7 / scroll.pages, 2 / scroll.pages));
+    const theta = 2 * Math.PI * t2;
+
+    earth.current.position.set(30, 0, -40).applyAxisAngle(J_HAT, theta);
   });
 
   return (
-    <>
+    <group ref={wrapper}>
       <pointLight decay={0} intensity={4} />
 
-      <group position={[30, -25, -40]} rotation={[degToRad(-60), 0, 0]}>
+      <group ref={earth} rotation={[degToRad(-60), 0, 0]}>
         <mesh ref={laser}>
           <boxGeometry args={[2 ** -3, 2 ** -3]} />
           <meshBasicMaterial />
@@ -64,6 +78,6 @@ export function SectionCat() {
 
         <Gltf scale={5 / 200} src="/models/earth.glb" />
       </group>
-    </>
+    </group>
   );
 }
