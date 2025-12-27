@@ -26,14 +26,13 @@ export function PsycheSat() {
     );
 
     const t2 = smooth(scroll.range(5 / scroll.pages, 1 / scroll.pages));
-    const t2Fast = smooth(scroll.curve(5 / scroll.pages, 4 / scroll.pages));
 
     setShow(t === 1 && t2 === 0);
 
     if (t2 > 0) {
       camera.rotation.set(
         lerp(0, degToRad(-30), t2),
-        lerp(-Math.PI, -2 * Math.PI, t2Fast),
+        lerp(-Math.PI, -2 * Math.PI, t2),
         0
       );
       camera.position.set(lerp(0, 50, t2), 0, 5);

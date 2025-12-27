@@ -14,7 +14,7 @@ export function SectionSat() {
 
     wrapper.current.visible = scroll.visible(
       2.5 / scroll.pages,
-      5 / scroll.pages
+      3 / scroll.pages
     );
 
     for (const child of wrapper.current.children) {
@@ -37,11 +37,6 @@ export function SectionSat() {
         color={new Color(0.5, 0.5, 1)}
         decay={0}
       />
-
-      <mesh position={[30, -30, -40]}>
-        <meshNormalMaterial />
-        <icosahedronGeometry />
-      </mesh>
 
       <PsycheSat />
     </group>

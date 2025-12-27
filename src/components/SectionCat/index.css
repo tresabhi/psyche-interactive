@@ -1,0 +1,28 @@
+.cat-html,
+.cat-html * {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.cat-container {
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 1s ease;
+
+  .pointer {
+    width: 8rem;
+    height: 2px;
+    background-color: white;
+  }
+
+  video {
+    height: 50vh;
+  }
+}
+
+.cat-container[data-show="true"] {
+  opacity: 1;
+}
