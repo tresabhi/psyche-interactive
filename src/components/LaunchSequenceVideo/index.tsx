@@ -17,7 +17,7 @@ export function LaunchSequenceVideo({ index }: Props) {
         if (entry.isIntersecting) {
           setTimeout(() => {
             wrapper.current!.classList.add("visible");
-          }, index * 2000);
+          }, index * 1000);
         }
       },
       { threshold: 0.3 }
