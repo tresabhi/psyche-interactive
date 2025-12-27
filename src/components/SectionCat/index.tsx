@@ -20,7 +20,10 @@ export function SectionCat() {
     laser.current.position.set(0, 0, lerp(500, 0, t));
     laser.current.scale.set(1, 1, lerp(10, 1, t));
 
-    cat.current.dataset.show = `${t > 0.98}`;
+    cat.current.dataset.show = `${scroll.visible(
+      6 / scroll.pages,
+      1 / scroll.pages
+    )}`;
   });
 
   return (
@@ -50,7 +53,7 @@ export function SectionCat() {
                   <video muted autoPlay loop src="/cat.mp4" />
                   <Flex justify="center" p="4">
                     <Text style={{ pointerEvents: "none" }}>
-                      Taters the cat streams to Earth via DSOC at 33MB/s
+                      Taters the cat streamed to Earth via DSOC at 33MB/s
                     </Text>
                   </Flex>
                 </Flex>

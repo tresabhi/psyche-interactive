@@ -3,6 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { SectionCat } from "./SectionCat";
 import { SectionIntro } from "./SectionIntro";
 import { SectionSat } from "./SectionSat";
+import { SectionSolar } from "./SectionSolar";
 
 export function Sandbox() {
   return (
@@ -13,6 +14,7 @@ export function Sandbox() {
         <SectionIntro />
         <SectionSat />
         <SectionCat />
+        <SectionSolar />
       </ScrollControls>
     </Canvas>
   );
