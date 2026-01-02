@@ -18,7 +18,7 @@ export function SatOrbiter() {
   const sat = useRef<Sprite>(null);
   const mat = useRef<SpriteMaterial>(null);
 
-  useFrame(({ camera }) => {
+  useFrame(() => {
     if (!sat.current || !mat.current) return;
 
     const t = 2 * smooth(scroll.range(7 / scroll.pages, 2 / scroll.pages));
