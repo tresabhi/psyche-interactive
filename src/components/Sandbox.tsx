@@ -10,7 +10,7 @@ export function Sandbox() {
     <Canvas gl={{ localClippingEnabled: true }}>
       <Environment environmentIntensity={0} background files={["/stars.jpg"]} />
 
-      <ScrollControls pages={9}>
+      <ScrollControls pages={11}>
         <SectionIntro />
         <SectionSat />
         <SectionCat />

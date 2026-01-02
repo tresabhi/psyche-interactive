@@ -6,6 +6,7 @@ import { lerp } from "three/src/math/MathUtils.js";
 import { smooth } from "../util/smooth";
 import { MarsSimple } from "./MarsSimple";
 import { Orbit } from "./Orbit";
+import { SatOrbiter } from "./SatOrbiter";
 import { Sun } from "./Sun";
 
 export function SectionSolar() {
@@ -24,8 +25,14 @@ export function SectionSolar() {
 
     if (t === 0) return;
 
-    camera.rotation.set(lerp(0, -Math.PI / 2, t), 0, 0);
+    camera.rotation.set(lerp(0, -Math.PI / 2, t ** (1 / 2)), 0, 0);
     camera.position.set(lerp(50, 0, t), lerp(0, 250, t), lerp(5, 0, t));
+
+    const t2 = smooth(scroll.range(8.5 / scroll.pages, 1 / scroll.pages));
+
+    if (t2 === 0) return;
+
+    camera.rotation.set(lerp(-Math.PI / 2, 0, t2), lerp(0, Math.PI / 2, t2), 0);
   });
 
   return (
@@ -35,6 +42,8 @@ export function SectionSolar() {
       <Orbit size={100} />
       <Orbit size={152} />
       <MarsSimple />
+
+      <SatOrbiter />
     </group>
   );
 }

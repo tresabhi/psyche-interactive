@@ -2,11 +2,13 @@ import { Card, Flex, Inset, Text } from "@radix-ui/themes";
 import { Gltf, Html, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import type { Group, Mesh } from "three";
+import { Vector3, type Group, type Mesh } from "three";
 import { degToRad, lerp } from "three/src/math/MathUtils.js";
 import { J_HAT } from "../../util/hats";
 import { smooth } from "../../util/smooth";
 import "./index.css";
+
+export const earthInitialPosition = new Vector3(30, 0, -40);
 
 export function SectionCat() {
   const scroll = useScroll();
@@ -37,7 +39,9 @@ export function SectionCat() {
     const t2 = 2 * smooth(scroll.range(7 / scroll.pages, 2 / scroll.pages));
     const theta = 2 * Math.PI * t2;
 
-    earth.current.position.set(30, 0, -40).applyAxisAngle(J_HAT, theta);
+    earth.current.position
+      .copy(earthInitialPosition)
+      .applyAxisAngle(J_HAT, theta);
   });
 
   return (

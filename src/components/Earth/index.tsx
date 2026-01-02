@@ -1,4 +1,4 @@
-import { Gltf, useScroll, useTexture } from "@react-three/drei";
+import { Gltf, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Group } from "three";
@@ -12,8 +12,6 @@ export function Earth() {
 
   const wrapper = useRef<Group>(null);
   const globe = useRef<Group>(null);
-
-  const glow = useTexture("/glow.png");
 
   useFrame(({ clock, camera }) => {
     const t = smooth(scroll.range(0, 1 / scroll.pages));

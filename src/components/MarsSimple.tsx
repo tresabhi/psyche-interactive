@@ -1,9 +1,15 @@
 import { useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import type { Mesh } from "three";
+import { Vector3, type Mesh } from "three";
+import { degToRad } from "three/src/math/MathUtils.js";
 import { J_HAT } from "../util/hats";
 import { smooth } from "../util/smooth";
+
+export const marsInitialPosition = new Vector3(152 / 2, 0, 0).applyAxisAngle(
+  J_HAT,
+  degToRad(-20)
+);
 
 export function MarsSimple() {
   const mars = useRef<Mesh>(null);
@@ -16,7 +22,9 @@ export function MarsSimple() {
     // n_mars / n_earth = 0.534
     const theta = 0.534 * 2 * Math.PI * t;
 
-    mars.current.position.set(152 / 2, 0, 0).applyAxisAngle(J_HAT, theta);
+    mars.current.position
+      .copy(marsInitialPosition)
+      .applyAxisAngle(J_HAT, theta);
   });
 
   return (
