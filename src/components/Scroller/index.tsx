@@ -1,6 +1,7 @@
 import { Box, Flex, Heading } from "@radix-ui/themes";
 import { Scroll } from "@react-three/drei";
 import { times } from "lodash-es";
+import { Drawer } from "../Drawer";
 import { LaunchSequenceVideo } from "../LaunchSequenceVideo";
 import "./index.css";
 
@@ -81,8 +82,19 @@ export function Scroller() {
             fontSize: "4vw",
           }}
         >
-          MAKE A GUESS!
+          MAYBE YOU DO!
         </Heading>
+      </Flex>
+
+      <Flex
+        position="absolute"
+        top="1100vh"
+        width="100vw"
+        height="100vh"
+        align="center"
+        justify="center"
+      >
+        <Drawer />
       </Flex>
     </Scroll>
   );

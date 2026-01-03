@@ -1,4 +1,4 @@
-import { Gltf, useTexture } from "@react-three/drei";
+import { Gltf, useScroll, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { type Group, type SpriteMaterial } from "three";
@@ -11,6 +11,7 @@ export function SectionMystery() {
   const cloud3 = useTexture(`${import.meta.env.BASE_URL}clouds/3.png`);
   const cloud4 = useTexture(`${import.meta.env.BASE_URL}clouds/4.png`);
   const clouds = [cloud1, cloud2, cloud3, cloud4];
+  const scroll = useScroll();
 
   const cloud = useRef<SpriteMaterial>(null);
 
@@ -31,6 +32,9 @@ export function SectionMystery() {
     cloud.current.map =
       clouds[Math.floor(clock.elapsedTime * clouds.length) % clouds.length];
     cloud.current.needsUpdate = true;
+
+    cloud.current.opacity =
+      1 - scroll.range(10 / scroll.pages, 1 / scroll.pages);
   });
 
   return (

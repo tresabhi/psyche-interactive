@@ -12,7 +12,7 @@
   height: 1rem;
   border: 2px solid white;
   box-shadow: 0 0 1rem black;
-  background-color: #ffffff80;
+  background-color: #ff454596;
   transform: rotate(45deg);
   cursor: pointer;
   user-select: none;
@@ -24,7 +24,7 @@
 
 @keyframes outline-slide {
   from {
-    outline: 1px solid white;
+    outline: 2px solid rgb(255, 80, 80);
     outline-offset: 0;
   }
   to {

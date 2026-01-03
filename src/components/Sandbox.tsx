@@ -15,7 +15,7 @@ export function Sandbox() {
         files={[`${import.meta.env.BASE_URL}stars.jpg`]}
       />
 
-      <ScrollControls pages={11}>
+      <ScrollControls pages={12}>
         <SectionIntro />
         <SectionSat />
         <SectionCat />

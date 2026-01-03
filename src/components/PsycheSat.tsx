@@ -107,7 +107,7 @@ export function PsycheSat() {
         </Text>
       </Info>
 
-      <Info position={[-1.75, 2, 4.5]} show={show}>
+      <Info hint position={[-1.75, 2, 4.5]} show={show}>
         <Heading>Magnetometer</Heading>
 
         <Text>

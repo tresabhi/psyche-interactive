@@ -1,4 +1,4 @@
-import { Card, Flex } from "@radix-ui/themes";
+import { Card, Flex, Text } from "@radix-ui/themes";
 import { Html } from "@react-three/drei";
 import type { HtmlProps } from "@react-three/drei/web/Html";
 import { useEffect, useState } from "react";
@@ -6,10 +6,12 @@ import "./index.css";
 
 interface Props extends HtmlProps {
   show: boolean;
+  hint?: boolean;
 }
 
-export function Info({ children, show, ...props }: Props) {
+export function Info({ children, show, hint = false, ...props }: Props) {
   const [visible, setVisible] = useState(false);
+  const [showHint, setShowHint] = useState(hint);
 
   useEffect(() => {
     function handlePointerDown() {
@@ -36,12 +38,12 @@ export function Info({ children, show, ...props }: Props) {
           flexShrink="0"
           onPointerDown={() => {
             setVisible(true);
+            setShowHint(false);
           }}
           align="center"
           justify="center"
           className="info-clicker"
         />
-
         {visible && (
           <Card
             style={{ zIndex: 64 }}
@@ -54,6 +56,8 @@ export function Info({ children, show, ...props }: Props) {
             </Flex>
           </Card>
         )}
+
+        {showHint && <Text wrap="nowrap">← Click me to learn more!</Text>}
       </Flex>
     </Html>
   );

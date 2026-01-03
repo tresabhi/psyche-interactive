@@ -23,7 +23,7 @@ export function SectionCat() {
 
     wrapper.current.visible = scroll.visible(
       5.5 / scroll.pages,
-      3 / scroll.pages
+      3.5 / scroll.pages
     );
 
     const t = smooth(scroll.range(5 / scroll.pages, 1 / scroll.pages));
