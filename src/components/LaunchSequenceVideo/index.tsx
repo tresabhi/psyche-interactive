@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { SEQUENCE_SIZE } from "../LaunchSequence";
+import { SEQUENCE_SIZE } from "../Scroller";
 import "./index.css";
 
 interface Props {
@@ -41,7 +41,12 @@ export function LaunchSequenceVideo({ index }: Props) {
         }%`,
       }}
     >
-      <video src={`/launch-sequence/${index + 1}.mp4`} autoPlay muted loop />
+      <video
+        src={`${import.meta.env.BASE_URL}launch-sequence/${index + 1}.mp4`}
+        autoPlay
+        muted
+        loop
+      />
     </div>
   );
 }

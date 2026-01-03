@@ -6,10 +6,10 @@ import { degToRad } from "three/src/math/MathUtils.js";
 import { J_HAT } from "../util/hats";
 
 export function SectionMystery() {
-  const cloud1 = useTexture("/clouds/1.png");
-  const cloud2 = useTexture("/clouds/2.png");
-  const cloud3 = useTexture("/clouds/3.png");
-  const cloud4 = useTexture("/clouds/4.png");
+  const cloud1 = useTexture(`${import.meta.env.BASE_URL}clouds/1.png`);
+  const cloud2 = useTexture(`${import.meta.env.BASE_URL}clouds/2.png`);
+  const cloud3 = useTexture(`${import.meta.env.BASE_URL}clouds/3.png`);
+  const cloud4 = useTexture(`${import.meta.env.BASE_URL}clouds/4.png`);
   const clouds = [cloud1, cloud2, cloud3, cloud4];
 
   const cloud = useRef<SpriteMaterial>(null);
@@ -41,7 +41,11 @@ export function SectionMystery() {
 
       <pointLight decay={0} intensity={4} />
 
-      <Gltf src="/models/psyche-sat.glb" scale={2 ** -4} ref={sat} />
+      <Gltf
+        src={`${import.meta.env.BASE_URL}models/psyche-sat.glb`}
+        scale={2 ** -4}
+        ref={sat}
+      />
 
       <sprite>
         <spriteMaterial transparent ref={cloud} map={cloud1} />

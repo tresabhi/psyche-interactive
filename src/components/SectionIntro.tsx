@@ -5,7 +5,7 @@ import type { Group, PointLight } from "three";
 import { Earth } from "./Earth";
 import { Florida } from "./Florida";
 import { LaunchAnimation } from "./LaunchAnimation";
-import { LaunchSequence } from "./LaunchSequence";
+import { Scroller } from "./Scroller";
 
 export function SectionIntro() {
   const scroll = useScroll();
@@ -26,7 +26,7 @@ export function SectionIntro() {
 
       <Earth />
       <Florida />
-      <LaunchSequence />
+      <Scroller />
       <LaunchAnimation />
     </group>
   );

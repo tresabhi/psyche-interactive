@@ -53,7 +53,11 @@ export function Earth() {
         />
       </mesh>
 
-      <Gltf ref={globe} scale={1 / 200} src="/models/earth.glb" />
+      <Gltf
+        ref={globe}
+        scale={1 / 200}
+        src={`${import.meta.env.BASE_URL}models/earth.glb`}
+      />
     </group>
   );
 }

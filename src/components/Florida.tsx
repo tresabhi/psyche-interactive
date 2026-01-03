@@ -21,7 +21,7 @@ export function Florida() {
       <Image
         ref={image}
         opacity={0}
-        url="/florida/cape.png"
+        url={`${import.meta.env.BASE_URL}florida/cape.png`}
         transparent
         scale={[6.4, 1]}
       />

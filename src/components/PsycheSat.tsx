@@ -119,7 +119,7 @@ export function PsycheSat() {
         </Text>
       </Info>
 
-      <Gltf src="/models/psyche-sat.glb" />
+      <Gltf src={`${import.meta.env.BASE_URL}models/psyche-sat.glb`} />
     </group>
   );
 }

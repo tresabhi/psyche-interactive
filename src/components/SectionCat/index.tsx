@@ -68,7 +68,12 @@ export function SectionCat() {
             <Card>
               <Inset>
                 <Flex direction="column">
-                  <video muted autoPlay loop src="/cat.mp4" />
+                  <video
+                    muted
+                    autoPlay
+                    loop
+                    src={`${import.meta.env.BASE_URL}cat.mp4`}
+                  />
                   <Flex justify="center" p="4">
                     <Text style={{ pointerEvents: "none" }}>
                       Taters the cat streamed to Earth via DSOC at 33MB/s
@@ -80,7 +85,10 @@ export function SectionCat() {
           </div>
         </Html>
 
-        <Gltf scale={5 / 200} src="/models/earth.glb" />
+        <Gltf
+          scale={5 / 200}
+          src={`${import.meta.env.BASE_URL}models/earth.glb`}
+        />
       </group>
     </group>
   );

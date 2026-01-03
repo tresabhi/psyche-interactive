@@ -13,7 +13,7 @@ const mars = new Vector3();
 const n = 1;
 
 export function SatOrbiter() {
-  const texture = useTexture("/satellite.png");
+  const texture = useTexture(`${import.meta.env.BASE_URL}satellite.png`);
   const scroll = useScroll();
   const sat = useRef<Sprite>(null);
   const mat = useRef<SpriteMaterial>(null);

@@ -9,7 +9,11 @@ import { SectionSolar } from "./SectionSolar";
 export function Sandbox() {
   return (
     <Canvas gl={{ localClippingEnabled: true }}>
-      <Environment environmentIntensity={0} background files={["/stars.jpg"]} />
+      <Environment
+        environmentIntensity={0}
+        background
+        files={[`${import.meta.env.BASE_URL}stars.jpg`]}
+      />
 
       <ScrollControls pages={11}>
         <SectionIntro />
