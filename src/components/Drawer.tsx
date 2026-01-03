@@ -1,4 +1,5 @@
-import { Flex, IconButton } from "@radix-ui/themes";
+import { CameraIcon } from "@radix-ui/react-icons";
+import { Flex, Heading, IconButton } from "@radix-ui/themes";
 import { useEffect, useRef, useState } from "react";
 
 const SIZES = [2, 4, 8, 16, 32];
@@ -16,6 +17,7 @@ export function Drawer() {
   const drawing = useRef(false);
   const [size, setSize] = useState(SIZES[0]);
   const [color, setColor] = useState(COLORS[0]);
+  const [screenshot, setScreenshot] = useState(false);
 
   // Keep a copy of canvas content on resize
   const savedData = useRef<ImageData | null>(null);
@@ -92,63 +94,95 @@ export function Drawer() {
       direction="column"
       gap="6"
       style={{
-        backgroundColor: "white",
         width: "40vw",
         height: "40vh",
-        borderRadius: "var(--radius-2)",
       }}
+      align="center"
     >
-      <canvas ref={canvas} style={{ width: "100%", height: "100%" }} />
+      {!screenshot && <Heading>DRAW YOUR PSYCHE</Heading>}
 
-      <Flex justify="center" gap="5">
-        <Flex gap="1">
-          {SIZES.map((s) => {
-            const selected = s === size;
-            return (
-              <IconButton
-                key={s}
-                size="3"
-                highContrast
-                variant={selected ? "solid" : "outline"}
-                onClick={() => setSize(s)}
-              >
-                <div
-                  style={{
-                    width: s,
-                    height: s,
-                    backgroundColor: "currentColor",
-                    borderRadius: "100%",
-                  }}
-                />
-              </IconButton>
-            );
-          })}
-        </Flex>
+      <canvas
+        ref={canvas}
+        style={{
+          borderRadius: "var(--radius-2)",
+          width: "100%",
+          height: "100%",
+          backgroundColor: screenshot ? "transparent" : "white",
+        }}
+      />
 
-        <Flex gap="1">
-          {COLORS.map((c) => {
-            const selected = c === color;
-            return (
-              <IconButton
-                key={c}
-                size="3"
-                highContrast
-                variant={selected ? "solid" : "outline"}
-                onClick={() => setColor(c)}
-              >
-                <div
-                  style={{
-                    width: "2rem",
-                    height: "2rem",
-                    backgroundColor: c,
-                    borderRadius: "100%",
-                  }}
-                />
-              </IconButton>
-            );
-          })}
+      {!screenshot && (
+        <Flex justify="center" gap="5">
+          <Flex gap="1">
+            {SIZES.map((s) => {
+              const selected = s === size;
+              return (
+                <IconButton
+                  key={s}
+                  size="3"
+                  highContrast
+                  variant={selected ? "solid" : "outline"}
+                  onClick={() => setSize(s)}
+                >
+                  <div
+                    style={{
+                      width: s,
+                      height: s,
+                      backgroundColor: "currentColor",
+                      borderRadius: "100%",
+                    }}
+                  />
+                </IconButton>
+              );
+            })}
+          </Flex>
+
+          <Flex gap="1">
+            {COLORS.map((c) => {
+              const selected = c === color;
+              return (
+                <IconButton
+                  key={c}
+                  size="3"
+                  highContrast
+                  variant={selected ? "solid" : "outline"}
+                  onClick={() => setColor(c)}
+                >
+                  <div
+                    style={{
+                      width: "2rem",
+                      height: "2rem",
+                      backgroundColor: c,
+                      borderRadius: "100%",
+                    }}
+                  />
+                </IconButton>
+              );
+            })}
+          </Flex>
+
+          <IconButton
+            size="3"
+            highContrast
+            onClick={() => {
+              if (!canvas.current) return;
+
+              const anchor = document.createElement("a");
+
+              anchor.setAttribute("download", `your psyche.png`);
+              anchor.setAttribute(
+                "href",
+                canvas.current.toDataURL("image/png")
+              );
+              anchor.click();
+
+              setScreenshot(true);
+            }}
+          >
+            <CameraIcon />
+          </IconButton>
         </Flex>
-      </Flex>
+      )}
     </Flex>
   );
 }
