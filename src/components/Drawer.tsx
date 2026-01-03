@@ -2,49 +2,71 @@ import { Flex, IconButton } from "@radix-ui/themes";
 import { useEffect, useRef, useState } from "react";
 
 const SIZES = [2, 4, 8, 16, 32];
+const COLORS = [
+  "#ffffffff",
+  "#9a9a9aff",
+  "#5f5f5fff",
+  "#303030ff",
+  "#000000ff",
+  "#634c30ff",
+];
 
 export function Drawer() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
-  const [size, setSize] = useState(2);
+  const [size, setSize] = useState(SIZES[0]);
+  const [color, setColor] = useState(COLORS[0]);
+
+  // Keep a copy of canvas content on resize
+  const savedData = useRef<ImageData | null>(null);
 
   useEffect(() => {
-    if (!canvas.current) return;
-
     const c = canvas.current;
+    if (!c) return;
+
     const ctx = c.getContext("2d")!;
+    ctx.lineCap = "round";
 
     const resize = () => {
       const rect = c.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
 
+      // Save existing drawing
+      savedData.current = ctx.getImageData(0, 0, c.width, c.height);
+
       c.width = rect.width * dpr;
       c.height = rect.height * dpr;
-
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      ctx.lineWidth = size;
-      ctx.lineCap = "round";
+      // Restore drawing
+      if (savedData.current) {
+        ctx.putImageData(savedData.current, 0, 0);
+      }
     };
 
     resize();
     window.addEventListener("resize", resize);
 
-    const position = (e: MouseEvent) => {
+    const getPos = (e: MouseEvent) => {
       const rect = c.getBoundingClientRect();
-      return [e.clientX - rect.left, e.clientY - rect.top];
+      return [e.clientX - rect.left, e.clientY - rect.top] as const;
     };
 
     const down = (e: MouseEvent) => {
       drawing.current = true;
-      const [x, y] = position(e);
+      const [x, y] = getPos(e);
       ctx.beginPath();
       ctx.moveTo(x, y);
     };
 
     const move = (e: MouseEvent) => {
       if (!drawing.current) return;
-      const [x, y] = position(e);
+      const [x, y] = getPos(e);
+
+      // Always use latest size and color
+      ctx.lineWidth = size;
+      ctx.strokeStyle = color;
+
       ctx.lineTo(x, y);
       ctx.stroke();
     };
@@ -63,7 +85,7 @@ export function Drawer() {
       c.removeEventListener("mousemove", move);
       window.removeEventListener("mouseup", up);
     };
-  }, [size]);
+  }, [size, color]);
 
   return (
     <Flex
@@ -78,31 +100,54 @@ export function Drawer() {
     >
       <canvas ref={canvas} style={{ width: "100%", height: "100%" }} />
 
-      <Flex justify="center" gap="1">
-        {SIZES.map((s) => {
-          const selected = s === size;
+      <Flex justify="center" gap="5">
+        <Flex gap="1">
+          {SIZES.map((s) => {
+            const selected = s === size;
+            return (
+              <IconButton
+                key={s}
+                size="3"
+                highContrast
+                variant={selected ? "solid" : "outline"}
+                onClick={() => setSize(s)}
+              >
+                <div
+                  style={{
+                    width: s,
+                    height: s,
+                    backgroundColor: "currentColor",
+                    borderRadius: "100%",
+                  }}
+                />
+              </IconButton>
+            );
+          })}
+        </Flex>
 
-          return (
-            <IconButton
-              size="3"
-              key={s}
-              highContrast
-              variant={selected ? "solid" : "outline"}
-              onClick={() => {
-                setSize(s);
-              }}
-            >
-              <div
-                style={{
-                  width: `${s}px`,
-                  height: `${s}px`,
-                  backgroundColor: "currentColor",
-                  borderRadius: "100%",
-                }}
-              />
-            </IconButton>
-          );
-        })}
+        <Flex gap="1">
+          {COLORS.map((c) => {
+            const selected = c === color;
+            return (
+              <IconButton
+                key={c}
+                size="3"
+                highContrast
+                variant={selected ? "solid" : "outline"}
+                onClick={() => setColor(c)}
+              >
+                <div
+                  style={{
+                    width: "2rem",
+                    height: "2rem",
+                    backgroundColor: c,
+                    borderRadius: "100%",
+                  }}
+                />
+              </IconButton>
+            );
+          })}
+        </Flex>
       </Flex>
     </Flex>
   );

@@ -57,7 +57,14 @@ export function Info({ children, show, hint = false, ...props }: Props) {
           </Card>
         )}
 
-        {showHint && <Text wrap="nowrap">← Click me to learn more!</Text>}
+        {showHint && (
+          <Text
+            wrap="nowrap"
+            style={{ userSelect: "none", pointerEvents: "none" }}
+          >
+            ← Click me to learn more!
+          </Text>
+        )}
       </Flex>
     </Html>
   );

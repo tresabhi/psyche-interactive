@@ -39,10 +39,6 @@ export function SectionMystery() {
 
   return (
     <group position={[-3, 250, 0]}>
-      {/* <sprite ref={sat} scale={1}>
-        <spriteMaterial transparent map={texture} />
-      </sprite> */}
-
       <pointLight decay={0} intensity={4} />
 
       <Gltf
@@ -54,11 +50,6 @@ export function SectionMystery() {
       <sprite>
         <spriteMaterial transparent ref={cloud} map={cloud1} />
       </sprite>
-
-      {/* <mesh>
-        <boxGeometry />
-        <meshNormalMaterial />
-      </mesh> */}
     </group>
   );
 }
