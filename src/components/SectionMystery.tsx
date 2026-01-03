@@ -1,7 +1,7 @@
-import { Gltf, useScroll, useTexture } from "@react-three/drei";
+import { Gltf, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import type { Group, SpriteMaterial } from "three";
+import { type Group, type SpriteMaterial } from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { J_HAT } from "../util/hats";
 
@@ -11,9 +11,9 @@ export function SectionMystery() {
   const cloud3 = useTexture("/clouds/3.png");
   const cloud4 = useTexture("/clouds/4.png");
   const clouds = [cloud1, cloud2, cloud3, cloud4];
+
   const cloud = useRef<SpriteMaterial>(null);
 
-  const scroll = useScroll();
   const sat = useRef<Group>(null);
 
   useFrame(({ clock }) => {
@@ -39,12 +39,12 @@ export function SectionMystery() {
         <spriteMaterial transparent map={texture} />
       </sprite> */}
 
-      <pointLight decay={0} />
+      <pointLight decay={0} intensity={4} />
 
       <Gltf src="/models/psyche-sat.glb" scale={2 ** -4} ref={sat} />
 
       <sprite>
-        <spriteMaterial ref={cloud} map={cloud1} />
+        <spriteMaterial transparent ref={cloud} map={cloud1} />
       </sprite>
 
       {/* <mesh>
