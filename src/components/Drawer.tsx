@@ -8,30 +8,40 @@ export function Drawer() {
   useEffect(() => {
     if (!canvas.current) return;
 
-    const ctx = canvas.current.getContext("2d")!;
+    const c = canvas.current;
+    const ctx = c.getContext("2d")!;
 
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
+    const resize = () => {
+      const rect = c.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+
+      c.width = rect.width * dpr;
+      c.height = rect.height * dpr;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
 
     const position = (e: MouseEvent) => {
-      const rect = canvas.current!.getBoundingClientRect();
+      const rect = c.getBoundingClientRect();
       return [e.clientX - rect.left, e.clientY - rect.top];
     };
 
     const down = (e: MouseEvent) => {
       drawing.current = true;
-
       const [x, y] = position(e);
-
       ctx.beginPath();
       ctx.moveTo(x, y);
     };
 
     const move = (e: MouseEvent) => {
       if (!drawing.current) return;
-
       const [x, y] = position(e);
-
       ctx.lineTo(x, y);
       ctx.stroke();
     };
@@ -40,13 +50,14 @@ export function Drawer() {
       drawing.current = false;
     };
 
-    canvas.current.addEventListener("mousedown", down);
-    canvas.current.addEventListener("mousemove", move);
+    c.addEventListener("mousedown", down);
+    c.addEventListener("mousemove", move);
     window.addEventListener("mouseup", up);
 
     return () => {
-      canvas.current!.removeEventListener("mousedown", down);
-      canvas.current!.removeEventListener("mousemove", move);
+      window.removeEventListener("resize", resize);
+      c.removeEventListener("mousedown", down);
+      c.removeEventListener("mousemove", move);
       window.removeEventListener("mouseup", up);
     };
   }, []);
@@ -57,15 +68,10 @@ export function Drawer() {
         backgroundColor: "white",
         width: "40vw",
         height: "40vh",
-        borderRadius: "1rem",
+        borderRadius: "var(--radius-2)",
       }}
     >
-      <canvas
-        ref={canvas}
-        width={800}
-        height={400}
-        style={{ width: "100%", height: "100%" }}
-      />
+      <canvas ref={canvas} style={{ width: "100%", height: "100%" }} />
     </Box>
   );
 }
