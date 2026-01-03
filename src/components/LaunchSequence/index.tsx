@@ -1,6 +1,5 @@
-import { Box } from "@radix-ui/themes";
-import { Html, Scroll } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { Box, Heading } from "@radix-ui/themes";
+import { Scroll } from "@react-three/drei";
 import { times } from "lodash-es";
 import { LaunchSequenceVideo } from "../LaunchSequenceVideo";
 import "./index.css";
@@ -8,22 +7,34 @@ import "./index.css";
 export const SEQUENCE_SIZE = 4;
 
 export function LaunchSequence() {
-  const viewport = useThree((state) => state.viewport);
-
   return (
-    <Scroll>
-      <Html position={[0, -2 * viewport.height, 0]} center>
-        <Box
-          position="relative"
-          width="100vw"
-          height="100vh"
-          style={{ background: "#00000080", width: "100vw", height: "100vh" }}
+    <Scroll html>
+      <Box position="absolute" top="0">
+        <Heading
+          style={{
+            letterSpacing: "-2px",
+            width: "100vw",
+            textAlign: "center",
+            fontSize: "7vw",
+          }}
+          mt="10vw"
+          wrap="nowrap"
         >
-          {times(SEQUENCE_SIZE).map((i) => (
-            <LaunchSequenceVideo key={i} index={i} />
-          ))}
-        </Box>
-      </Html>
+          PSYCHE INTERACTIVE
+        </Heading>
+      </Box>
+
+      <Box
+        position="absolute"
+        top="150vh"
+        width="100vw"
+        height="100vh"
+        style={{ background: "#00000080", width: "100vw", height: "100vh" }}
+      >
+        {times(SEQUENCE_SIZE).map((i) => (
+          <LaunchSequenceVideo key={i} index={i} />
+        ))}
+      </Box>
     </Scroll>
   );
 }

@@ -6,7 +6,6 @@ import { Earth } from "./Earth";
 import { Florida } from "./Florida";
 import { LaunchAnimation } from "./LaunchAnimation";
 import { LaunchSequence } from "./LaunchSequence";
-import { Title } from "./Title";
 
 export function SectionIntro() {
   const scroll = useScroll();
@@ -25,7 +24,6 @@ export function SectionIntro() {
     <group ref={wrapper}>
       <pointLight ref={light} position={[-10, 10, 10]} decay={0} />
 
-      <Title />
       <Earth />
       <Florida />
       <LaunchSequence />
