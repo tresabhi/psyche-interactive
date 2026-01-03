@@ -95,7 +95,7 @@ export function Drawer() {
       gap="6"
       style={{
         width: "40vw",
-        height: "40vh",
+        height: "60vh",
       }}
       align="center"
     >
