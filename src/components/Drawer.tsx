@@ -1,9 +1,12 @@
-import { Box } from "@radix-ui/themes";
-import { useEffect, useRef } from "react";
+import { Flex, IconButton } from "@radix-ui/themes";
+import { useEffect, useRef, useState } from "react";
+
+const SIZES = [2, 4, 8, 16, 32];
 
 export function Drawer() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
+  const [size, setSize] = useState(2);
 
   useEffect(() => {
     if (!canvas.current) return;
@@ -20,7 +23,7 @@ export function Drawer() {
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      ctx.lineWidth = 2;
+      ctx.lineWidth = size;
       ctx.lineCap = "round";
     };
 
@@ -60,10 +63,12 @@ export function Drawer() {
       c.removeEventListener("mousemove", move);
       window.removeEventListener("mouseup", up);
     };
-  }, []);
+  }, [size]);
 
   return (
-    <Box
+    <Flex
+      direction="column"
+      gap="6"
       style={{
         backgroundColor: "white",
         width: "40vw",
@@ -72,6 +77,33 @@ export function Drawer() {
       }}
     >
       <canvas ref={canvas} style={{ width: "100%", height: "100%" }} />
-    </Box>
+
+      <Flex justify="center" gap="1">
+        {SIZES.map((s) => {
+          const selected = s === size;
+
+          return (
+            <IconButton
+              size="3"
+              key={s}
+              highContrast
+              variant={selected ? "solid" : "outline"}
+              onClick={() => {
+                setSize(s);
+              }}
+            >
+              <div
+                style={{
+                  width: `${s}px`,
+                  height: `${s}px`,
+                  backgroundColor: "currentColor",
+                  borderRadius: "100%",
+                }}
+              />
+            </IconButton>
+          );
+        })}
+      </Flex>
+    </Flex>
   );
 }
