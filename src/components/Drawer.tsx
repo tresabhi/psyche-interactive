@@ -1,6 +1,6 @@
-import { CameraIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, IconButton } from "@radix-ui/themes";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const SIZES = [2, 4, 8, 16, 32];
 const COLORS = [
@@ -15,79 +15,84 @@ const COLORS = [
 export function Drawer() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
+  const [hide, setHide] = useState(false);
   const [size, setSize] = useState(SIZES[0]);
   const [color, setColor] = useState(COLORS[0]);
-  const [screenshot, setScreenshot] = useState(false);
 
-  // Keep a copy of canvas content on resize
   const savedData = useRef<ImageData | null>(null);
 
-  useEffect(() => {
-    const c = canvas.current;
-    if (!c) return;
+  const resize = useCallback((ctx: CanvasRenderingContext2D) => {
+    const rect = canvas.current!.getBoundingClientRect();
+    const dpr = window.devicePixelRatio ?? 1;
 
-    const ctx = c.getContext("2d")!;
-    ctx.lineCap = "round";
+    savedData.current = ctx.getImageData(
+      0,
+      0,
+      canvas.current!.width,
+      canvas.current!.height
+    );
 
-    const resize = () => {
-      const rect = c.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
+    canvas.current!.width = rect.width * dpr;
+    canvas.current!.height = rect.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Save existing drawing
-      savedData.current = ctx.getImageData(0, 0, c.width, c.height);
-
-      c.width = rect.width * dpr;
-      c.height = rect.height * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      // Restore drawing
-      if (savedData.current) {
-        ctx.putImageData(savedData.current, 0, 0);
-      }
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-
-    const getPos = (e: MouseEvent) => {
-      const rect = c.getBoundingClientRect();
-      return [e.clientX - rect.left, e.clientY - rect.top] as const;
-    };
-
-    const down = (e: MouseEvent) => {
-      drawing.current = true;
-      const [x, y] = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-    };
-
-    const move = (e: MouseEvent) => {
+    if (savedData.current) ctx.putImageData(savedData.current, 0, 0);
+  }, []);
+  const getPos = useCallback((ctx: CanvasRenderingContext2D, e: MouseEvent) => {
+    const rect = ctx.canvas.getBoundingClientRect();
+    return [e.clientX - rect.left, e.clientY - rect.top] as const;
+  }, []);
+  const down = useCallback((ctx: CanvasRenderingContext2D, e: MouseEvent) => {
+    console.log("down");
+    drawing.current = true;
+    const [x, y] = getPos(ctx, e);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  }, []);
+  const move = useCallback(
+    (ctx: CanvasRenderingContext2D, e: MouseEvent) => {
       if (!drawing.current) return;
-      const [x, y] = getPos(e);
 
-      // Always use latest size and color
+      console.log("move");
+
+      const [x, y] = getPos(ctx, e);
+
       ctx.lineWidth = size;
       ctx.strokeStyle = color;
 
       ctx.lineTo(x, y);
       ctx.stroke();
-    };
+    },
+    [size, color]
+  );
+  const up = useCallback(() => {
+    drawing.current = false;
+  }, []);
 
-    const up = () => {
-      drawing.current = false;
-    };
+  useEffect(() => {
+    if (!canvas.current) return;
 
-    c.addEventListener("mousedown", down);
-    c.addEventListener("mousemove", move);
+    const ctx = canvas.current.getContext("2d")!;
+    ctx.lineCap = "round";
+
+    const _resize = () => resize(ctx);
+    const _down = (e: MouseEvent) => down(ctx, e);
+    const _move = (e: MouseEvent) => move(ctx, e);
+
+    _resize();
+    window.addEventListener("resize", _resize);
+
+    canvas.current.addEventListener("mousedown", _down);
+    canvas.current.addEventListener("mousemove", _move);
     window.addEventListener("mouseup", up);
 
     return () => {
-      window.removeEventListener("resize", resize);
-      c.removeEventListener("mousedown", down);
-      c.removeEventListener("mousemove", move);
+      window.removeEventListener("resize", _resize);
+      canvas.current!.removeEventListener("mousedown", _down);
+      canvas.current!.removeEventListener("mousemove", _move);
       window.removeEventListener("mouseup", up);
     };
-  }, [size, color]);
+  }, []);
 
   return (
     <Flex
@@ -99,7 +104,7 @@ export function Drawer() {
       }}
       align="center"
     >
-      {!screenshot && <Heading>DRAW YOUR PSYCHE</Heading>}
+      {!hide && <Heading>DRAW YOUR PSYCHE</Heading>}
 
       <canvas
         ref={canvas}
@@ -107,22 +112,25 @@ export function Drawer() {
           borderRadius: "var(--radius-2)",
           width: "100%",
           height: "100%",
-          backgroundColor: screenshot ? "transparent" : "white",
+          backgroundColor: hide ? "transparent" : "white",
         }}
       />
 
-      {!screenshot && (
+      {!hide && (
         <Flex justify="center" gap="5">
           <Flex gap="1">
             {SIZES.map((s) => {
               const selected = s === size;
+
               return (
                 <IconButton
                   key={s}
                   size="3"
                   highContrast
                   variant={selected ? "solid" : "outline"}
-                  onClick={() => setSize(s)}
+                  onClick={() => {
+                    setSize(s);
+                  }}
                 >
                   <div
                     style={{
@@ -146,7 +154,9 @@ export function Drawer() {
                   size="3"
                   highContrast
                   variant={selected ? "solid" : "outline"}
-                  onClick={() => setColor(c)}
+                  onClick={() => {
+                    setColor(c);
+                  }}
                 >
                   <div
                     style={{
@@ -165,21 +175,10 @@ export function Drawer() {
             size="3"
             highContrast
             onClick={() => {
-              if (!canvas.current) return;
-
-              const anchor = document.createElement("a");
-
-              anchor.setAttribute("download", `your psyche.png`);
-              anchor.setAttribute(
-                "href",
-                canvas.current.toDataURL("image/png")
-              );
-              anchor.click();
-
-              setScreenshot(true);
+              setHide(true);
             }}
           >
-            <CameraIcon />
+            <CheckIcon />
           </IconButton>
         </Flex>
       )}
