@@ -25,17 +25,20 @@ export function Scroller() {
         </Heading>
       </Box>
 
-      <Box
+      <Flex
+        justify="center"
         position="absolute"
         top="150vh"
         width="100vw"
         height="100vh"
         style={{ background: "#00000080", width: "100vw", height: "100vh" }}
       >
+        <Heading mt="9">Cape Canaveral Launch, Florida, 2023</Heading>
+
         {times(SEQUENCE_SIZE).map((i) => (
           <LaunchSequenceVideo key={i} index={i} />
         ))}
-      </Box>
+      </Flex>
 
       <Flex
         position="absolute"
