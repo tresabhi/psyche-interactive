@@ -16,9 +16,17 @@ export function SectionMystery() {
   const cloud = useRef<SpriteMaterial>(null);
 
   const sat = useRef<Group>(null);
+  const wrapper = useRef<Group>(null);
 
   useFrame(({ clock }) => {
-    if (!sat.current || !cloud.current) return;
+    if (!sat.current || !cloud.current || !wrapper.current) return;
+
+    wrapper.current.visible = scroll.visible(
+      9 / scroll.pages,
+      3 / scroll.pages
+    );
+
+    if (!wrapper.current.visible) return;
 
     sat.current.position
       .set(5, Math.sin(clock.elapsedTime * 2), 0)
@@ -38,7 +46,7 @@ export function SectionMystery() {
   });
 
   return (
-    <group position={[-3, 250, 0]}>
+    <group position={[-3, 250, 0]} ref={wrapper}>
       <pointLight decay={0} intensity={4} />
 
       <Gltf
