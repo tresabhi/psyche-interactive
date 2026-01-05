@@ -33,7 +33,7 @@ export function SatOrbiter() {
 
     const r = lerp(
       r_earth,
-      r_mars + 7,
+      r_mars - 7,
       t < 1 ? (2 - 4 * n) * t ** 2 + (4 * n - 1) * t : t ** 3
     );
     const theta = lerp(
@@ -48,7 +48,7 @@ export function SatOrbiter() {
   });
 
   return (
-    <sprite ref={sat} scale={10}>
+    <sprite renderOrder={1} ref={sat} scale={10}>
       <spriteMaterial ref={mat} transparent map={texture} />
     </sprite>
   );
