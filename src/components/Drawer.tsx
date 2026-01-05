@@ -1,6 +1,6 @@
 import { CheckIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, IconButton } from "@radix-ui/themes";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SIZES = [2, 4, 8, 16, 32];
 const COLORS = [
@@ -21,78 +21,66 @@ export function Drawer() {
 
   const savedData = useRef<ImageData | null>(null);
 
-  const resize = useCallback((ctx: CanvasRenderingContext2D) => {
-    const rect = canvas.current!.getBoundingClientRect();
-    const dpr = window.devicePixelRatio ?? 1;
-
-    savedData.current = ctx.getImageData(
-      0,
-      0,
-      canvas.current!.width,
-      canvas.current!.height
-    );
-
-    canvas.current!.width = rect.width * dpr;
-    canvas.current!.height = rect.height * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    if (savedData.current) ctx.putImageData(savedData.current, 0, 0);
-  }, []);
-  const getPos = useCallback((ctx: CanvasRenderingContext2D, e: MouseEvent) => {
-    const rect = ctx.canvas.getBoundingClientRect();
-    return [e.clientX - rect.left, e.clientY - rect.top] as const;
-  }, []);
-  const down = useCallback((ctx: CanvasRenderingContext2D, e: MouseEvent) => {
-    console.log("down");
-    drawing.current = true;
-    const [x, y] = getPos(ctx, e);
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-  }, []);
-  const move = useCallback(
-    (ctx: CanvasRenderingContext2D, e: MouseEvent) => {
-      if (!drawing.current) return;
-
-      console.log("move");
-
-      const [x, y] = getPos(ctx, e);
-
-      ctx.lineWidth = size;
-      ctx.strokeStyle = color;
-
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    },
-    [size, color]
-  );
-  const up = useCallback(() => {
-    drawing.current = false;
-  }, []);
-
   useEffect(() => {
     if (!canvas.current) return;
 
     const ctx = canvas.current.getContext("2d")!;
     ctx.lineCap = "round";
 
-    const _resize = () => resize(ctx);
-    const _down = (e: MouseEvent) => down(ctx, e);
-    const _move = (e: MouseEvent) => move(ctx, e);
+    const resize = () => {
+      const rect = canvas.current!.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
 
-    _resize();
-    window.addEventListener("resize", _resize);
+      const dpr = window.devicePixelRatio || 1;
 
-    canvas.current.addEventListener("mousedown", _down);
-    canvas.current.addEventListener("mousemove", _move);
+      const image = ctx.getImageData(
+        0,
+        0,
+        canvas.current!.width,
+        canvas.current!.height
+      );
+
+      canvas.current!.width = rect.width * dpr;
+      canvas.current!.height = rect.height * dpr;
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.putImageData(image, 0, 0);
+    };
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas.current);
+
+    const down = (e: MouseEvent) => {
+      drawing.current = true;
+      const rect = canvas.current!.getBoundingClientRect();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    };
+
+    const move = (e: MouseEvent) => {
+      e.preventDefault();
+      if (!drawing.current) return;
+      const rect = canvas.current!.getBoundingClientRect();
+
+      ctx.lineWidth = size;
+      ctx.strokeStyle = color;
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+    };
+
+    const up = () => (drawing.current = false);
+
+    canvas.current.addEventListener("mousedown", down);
+    canvas.current.addEventListener("mousemove", move);
     window.addEventListener("mouseup", up);
 
     return () => {
-      window.removeEventListener("resize", _resize);
-      canvas.current!.removeEventListener("mousedown", _down);
-      canvas.current!.removeEventListener("mousemove", _move);
+      ro.disconnect();
+      canvas.current!.removeEventListener("mousedown", down);
+      canvas.current!.removeEventListener("mousemove", move);
       window.removeEventListener("mouseup", up);
     };
-  }, []);
+  }, [size, color]);
 
   return (
     <Flex
