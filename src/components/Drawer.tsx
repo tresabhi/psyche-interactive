@@ -27,7 +27,7 @@ export function Drawer() {
 
     const resize = () => {
       const rect = canvas.current!.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;
+      if (!rect.width || !rect.height) return;
 
       const dpr = window.devicePixelRatio || 1;
 
@@ -48,35 +48,41 @@ export function Drawer() {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas.current);
 
-    const down = (e: MouseEvent) => {
+    const down = (e: PointerEvent) => {
       drawing.current = true;
+      canvas.current!.setPointerCapture(e.pointerId);
+
       const rect = canvas.current!.getBoundingClientRect();
       ctx.beginPath();
       ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
     };
 
-    const move = (e: MouseEvent) => {
-      e.preventDefault();
+    const move = (e: PointerEvent) => {
       if (!drawing.current) return;
-      const rect = canvas.current!.getBoundingClientRect();
 
+      const rect = canvas.current!.getBoundingClientRect();
       ctx.lineWidth = size;
       ctx.strokeStyle = color;
       ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
       ctx.stroke();
     };
 
-    const up = () => (drawing.current = false);
+    const up = (e: PointerEvent) => {
+      drawing.current = false;
+      canvas.current!.releasePointerCapture(e.pointerId);
+    };
 
-    canvas.current.addEventListener("mousedown", down);
-    canvas.current.addEventListener("mousemove", move);
-    window.addEventListener("mouseup", up);
+    canvas.current.addEventListener("pointerdown", down);
+    canvas.current.addEventListener("pointermove", move);
+    canvas.current.addEventListener("pointerup", up);
+    canvas.current.addEventListener("pointercancel", up);
 
     return () => {
       ro.disconnect();
-      canvas.current!.removeEventListener("mousedown", down);
-      canvas.current!.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup", up);
+      canvas.current!.removeEventListener("pointerdown", down);
+      canvas.current!.removeEventListener("pointermove", move);
+      canvas.current!.removeEventListener("pointerup", up);
+      canvas.current!.removeEventListener("pointercancel", up);
     };
   }, [size, color]);
 
@@ -99,6 +105,7 @@ export function Drawer() {
           width: "100%",
           height: "100%",
           backgroundColor: hide ? "transparent" : "white",
+          touchAction: "none",
         }}
       />
 
