@@ -19,8 +19,6 @@ export function Drawer() {
   const [size, setSize] = useState(SIZES[0]);
   const [color, setColor] = useState(COLORS[0]);
 
-  const savedData = useRef<ImageData | null>(null);
-
   useEffect(() => {
     if (!canvas.current) return;
 
