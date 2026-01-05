@@ -97,7 +97,7 @@ export function Scroller() {
 
       <Flex
         position="absolute"
-        top="1100dvh"
+        top="1050dvh"
         width="100vw"
         height="100dvh"
         align="center"

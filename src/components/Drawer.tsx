@@ -83,7 +83,7 @@ export function Drawer() {
   return (
     <Flex
       direction="column"
-      gap="6"
+      gap={{ initial: "3", md: "6" }}
       style={{
         width: "40vw",
         height: "60dvh",
@@ -111,7 +111,7 @@ export function Drawer() {
               return (
                 <IconButton
                   key={s}
-                  size="3"
+                  size={{ initial: "2", md: "3" }}
                   highContrast
                   variant={selected ? "solid" : "outline"}
                   onClick={() => {
@@ -137,7 +137,7 @@ export function Drawer() {
               return (
                 <IconButton
                   key={c}
-                  size="3"
+                  size={{ initial: "2", md: "3" }}
                   highContrast
                   variant={selected ? "solid" : "outline"}
                   onClick={() => {
@@ -158,7 +158,7 @@ export function Drawer() {
           </Flex>
 
           <IconButton
-            size="3"
+            size={{ initial: "2", md: "3" }}
             highContrast
             onClick={() => {
               setHide(true);
