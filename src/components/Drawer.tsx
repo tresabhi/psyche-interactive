@@ -72,19 +72,21 @@ export function Drawer() {
       canvas.current!.releasePointerCapture(e.pointerId);
     };
 
-    canvas.current.addEventListener("pointerdown", down);
-    canvas.current.addEventListener("pointermove", move);
-    canvas.current.addEventListener("pointerup", up);
-    canvas.current.addEventListener("pointercancel", up);
+    if (!hide) {
+      canvas.current.addEventListener("pointerdown", down);
+      canvas.current.addEventListener("pointermove", move);
+      canvas.current.addEventListener("pointerup", up);
+      canvas.current.addEventListener("pointercancel", up);
 
-    return () => {
-      ro.disconnect();
-      canvas.current!.removeEventListener("pointerdown", down);
-      canvas.current!.removeEventListener("pointermove", move);
-      canvas.current!.removeEventListener("pointerup", up);
-      canvas.current!.removeEventListener("pointercancel", up);
-    };
-  }, [size, color]);
+      return () => {
+        ro.disconnect();
+        canvas.current!.removeEventListener("pointerdown", down);
+        canvas.current!.removeEventListener("pointermove", move);
+        canvas.current!.removeEventListener("pointerup", up);
+        canvas.current!.removeEventListener("pointercancel", up);
+      };
+    }
+  }, [size, color, hide]);
 
   return (
     <Flex
