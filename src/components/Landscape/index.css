@@ -1,0 +1,9 @@
+.landscape {
+  background-color: var(--gray-1);
+}
+
+@media (min-aspect-ratio: 1 / 1) {
+  .landscape {
+    display: none !important;
+  }
+}

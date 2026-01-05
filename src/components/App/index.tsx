@@ -2,6 +2,7 @@ import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { useEffect } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
+import { Landscape } from "../Landscape";
 import { progressEvent } from "../Progress";
 import { Sandbox } from "../Sandbox";
 import "./index.css";
@@ -23,6 +24,7 @@ export function App() {
       style={{ width: "100vw", height: "100vh", background: "black" }}
     >
       <Sandbox />
+      <Landscape />
     </Theme>
   );
 }
