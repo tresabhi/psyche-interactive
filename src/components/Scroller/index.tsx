@@ -1,4 +1,4 @@
-import { Box, Flex, Heading } from "@radix-ui/themes";
+import { Flex, Heading, Text } from "@radix-ui/themes";
 import { Scroll } from "@react-three/drei";
 import { times } from "lodash-es";
 import { Drawer } from "../Drawer";
@@ -10,12 +10,17 @@ export const SEQUENCE_SIZE = 4;
 export function Scroller() {
   return (
     <Scroll html>
-      <Box position="absolute" top="0">
+      <Flex
+        position="absolute"
+        top="0"
+        direction="column"
+        align="center"
+        width="100vw"
+        gap="2vw"
+      >
         <Heading
           style={{
             letterSpacing: "-2px",
-            width: "100vw",
-            textAlign: "center",
             fontSize: "7vw",
           }}
           mt="10vw"
@@ -23,15 +28,16 @@ export function Scroller() {
         >
           PSYCHE INTERACTIVE
         </Heading>
-      </Box>
+        <Text color="gray">SCROLL TO BEGIN</Text>
+      </Flex>
 
       <Flex
         justify="center"
         position="absolute"
-        top="150vh"
+        top="150dvh"
         width="100vw"
-        height="100vh"
-        style={{ background: "#00000080", width: "100vw", height: "100vh" }}
+        height="100dvh"
+        style={{ background: "#00000080", width: "100vw", height: "100dvh" }}
       >
         <Heading mt="9">Cape Canaveral Launch, Florida, 2023</Heading>
 
@@ -42,9 +48,9 @@ export function Scroller() {
 
       <Flex
         position="absolute"
-        top="900vh"
+        top="900dvh"
         width="100vw"
-        height="70vh"
+        height="70dvh"
         direction="column"
         align="center"
         justify="center"
@@ -72,9 +78,9 @@ export function Scroller() {
 
       <Flex
         position="absolute"
-        top="1000vh"
+        top="1000dvh"
         width="100vw"
-        height="70vh"
+        height="70dvh"
         direction="column"
         align="center"
         justify="center"
@@ -91,9 +97,9 @@ export function Scroller() {
 
       <Flex
         position="absolute"
-        top="1100vh"
+        top="1100dvh"
         width="100vw"
-        height="100vh"
+        height="100dvh"
         align="center"
         justify="center"
       >

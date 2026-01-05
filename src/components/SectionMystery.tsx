@@ -1,7 +1,7 @@
-import { useScroll, useTexture } from "@react-three/drei";
+import { Gltf, useScroll, useTexture } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
-import { Sprite, type Group, type SpriteMaterial } from "three";
+import { type Group, type SpriteMaterial } from "three";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { J_HAT } from "../util/hats";
 
@@ -13,10 +13,10 @@ export function SectionMystery() {
   const clouds = [cloud1, cloud2, cloud3, cloud4];
   const scroll = useScroll();
 
-  const texture = useTexture(`${import.meta.env.BASE_URL}satellite.png`);
+  // const texture = useTexture(`${import.meta.env.BASE_URL}satellite.png`);
   const cloud = useRef<SpriteMaterial>(null);
 
-  const sat = useRef<Sprite>(null);
+  const sat = useRef<Group>(null);
   const wrapper = useRef<Group>(null);
 
   useFrame(({ clock }) => {
@@ -50,15 +50,15 @@ export function SectionMystery() {
     <group position={[-3, 250, 0]} ref={wrapper}>
       <pointLight decay={0} intensity={4} />
 
-      {/* <Gltf
+      <Gltf
         src={`${import.meta.env.BASE_URL}models/psyche-sat.glb`}
         scale={2 ** -4}
         ref={sat}
-      /> */}
+      />
 
-      <sprite renderOrder={1} ref={sat} scale={1}>
+      {/* <sprite renderOrder={1} ref={sat} scale={1}>
         <spriteMaterial transparent map={texture} />
-      </sprite>
+      </sprite> */}
 
       <sprite>
         <spriteMaterial transparent ref={cloud} map={cloud1} />

@@ -21,7 +21,7 @@ export function App() {
       appearance="dark"
       radius="full"
       id="app"
-      style={{ width: "100vw", height: "100vh", background: "black" }}
+      style={{ width: "100vw", height: "100dvh", background: "black" }}
     >
       <Sandbox />
       <Landscape />
