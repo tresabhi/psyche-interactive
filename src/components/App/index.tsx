@@ -1,7 +1,8 @@
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { clamp } from "three/src/math/MathUtils.js";
+import { AppLoader } from "../AppLoader";
 import { Landscape } from "../Landscape";
 import { progressEvent } from "../Progress";
 import { Sandbox } from "../Sandbox";
@@ -23,8 +24,10 @@ export function App() {
       id="app"
       style={{ width: "100vw", height: "100dvh", background: "black" }}
     >
-      <Sandbox />
-      <Landscape />
+      <Suspense fallback={<AppLoader />}>
+        <Sandbox />
+        <Landscape />
+      </Suspense>
     </Theme>
   );
 }
